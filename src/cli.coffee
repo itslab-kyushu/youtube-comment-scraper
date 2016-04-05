@@ -1,4 +1,13 @@
 #! /usr/bin/env coffee
+#
+# cli.coffee
+#
+# Copyright (c) 2016 Junpei Kawamoto
+#
+# This software is released under the MIT License.
+#
+# http://opensource.org/licenses/mit-license.php
+#
 argv = require "argv"
 scraper = require "../lib/scraper"
 
