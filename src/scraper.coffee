@@ -52,7 +52,7 @@ module.exports = (url, wait_time=30000) ->
           .then (status) ->
             page.evaluate ->
 
-              load_hidden_page = (delay, callback) ->
+              load_hidden_pages = (delay, callback) ->
                 # Load hidden pages.
                 #
                 # Args:
@@ -68,7 +68,7 @@ module.exports = (url, wait_time=30000) ->
                 setTimeout load, delay
 
               # 2000 msec seems enough to load each page.
-              load_hidden_page 2000, ->
+              load_hidden_pages 2000, ->
 
                 # Load omitted comments.
                 for read_more in document.getElementsByClassName("read-more")
