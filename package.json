@@ -18,8 +18,7 @@
     "gulpfile.coffee",
     "LICENSE",
     "package.json",
-    "README.md",
-    "main.coffee"
+    "README.md"
   ],
   "dependencies": {
     "argv": "0.0.2",
