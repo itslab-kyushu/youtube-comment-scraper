@@ -20,46 +20,39 @@ phantom.create().then (ph) ->
     page.open(url)
       .then wait(10000)
       .then (status) ->
-        console.log "ev"
         page.evaluate ->
 
-          console.log "def load_hidden"
-          load_hidden_page = (delay) ->
+          load_hidden_page = (delay, callback) ->
             # Load hidden pages.
             # Args:
             #   delay:
             # Returns:
             #  Promise object so that follwing logics could be written in "then".
-            new Promise (resolve, reject) ->
-              checker = ->
-                load_btns = document.getElementsByClassName("load-more-button")
-                if load_btns.length is 0
-                  resolve()
-                else
-                  load_btns[0].click()
-                  setTimeout checker, delay
-              setTimeout checker, delay
+            load = ->
+              load_btns = document.getElementsByClassName("load-more-button")
+              if load_btns.length is 0
+                callback()
+              else
+                load_btns[0].click()
+                setTimeout load, delay
+            setTimeout load, delay
 
-          load_hidden_page 1000
-            .then ->
+          load_hidden_page 2000, ->
+            # Load omitted comments.
+            for read_more in document.getElementsByClassName("read-more")
+              read_more.firstElementChild.click()
 
-              console.log "finished loading"
+      .then wait(30000)
+      .then ->
+        page.evaluate ->
+          return document.body.innerHTML
 
-              # Load omitted comments.
-              for read_more in document.getElementsByClassName("read-more")
-                read_more.firstElementChild.click()
+      .then (html) ->
+        $ = cheerio.load html
+        $(".comment-thread-renderer").each (i) ->
+          console.log i, $(".comment-renderer-text-content", $(@).children().first()).text()
 
-              console.log "comments"
-              return document.getElementsByClassName("comment-thread-renderer")
-              # res = []
-              # for thread in document.getElementsByClassName("comment-thread-renderer")
-              #   root = thread.firstElementChild
-              #   res.push(root.getElementsByClassName("comment-renderer-text-content")[0].innerText)
-              # return res
-
-          return null
-      .then (res) ->
-        console.log res
+        # console.log res
         page.close()
         ph.exit()
       .catch (reason) ->
