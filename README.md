@@ -18,7 +18,7 @@ Usage
 Usage: scraper url [options]
 
         url
-                URL for a Youtube video page
+                URL for a Youtube video page or video ID.
 
         --help, -h
                 Displays help information about this script
@@ -26,6 +26,29 @@ Usage: scraper url [options]
         --version
                 Displays version info
 ```
+
+Output is a JSON file and its schema is
+
+```json
+{
+  "url": "the given url",
+  "comments": [
+    {
+      "root": "root comment",
+      "like": "like score (summation of +1 for like and -1 for dislike)",
+      "children": [
+        {
+          "comment": "reply comment",
+          "like": "like score"
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+```
+
 
 Method
 ---------
@@ -37,7 +60,7 @@ var scraper = require("youtube-comment-scraper");
 Scraping a given Youtube page and return a set of comments.
 
 - Args:
-  - url: URL of the target page.
+  - url: URL of the target page or video ID.
 - Returns:
  Promise object. Use "then" to recieve results.
 
@@ -69,28 +92,6 @@ $ ./bin/cli.js <url>
 ```
 
 `<url>` is a Youtube url.
-
-Output is a JSON file and its schema is
-
-```json
-{
-  "url": "the given url",
-  "comments": [
-    {
-      "root": "root comment",
-      "like": "like score (summation of +1 for like and -1 for dislike)",
-      "children": [
-        {
-          "comment": "reply comment",
-          "like": "like score"
-        },
-        ...
-      ]
-    },
-    ...
-  ]
-}
-```
 
 License
 --------
