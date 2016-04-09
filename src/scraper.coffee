@@ -11,32 +11,18 @@
 phantom = require "phantom"
 cheerio = require "cheerio"
 
+BASE_URL = "https://www.youtube.com/watch?v="
+HTTPS = "https://"
+HTTP = "http://"
 
-module.exports = (url, wait_time=30000) ->
+module.exports = (url) ->
   # Scraping a given Youtube page and return a set of comments.
   #
   # Args:
-  #   url: URL of the target page.
-  #   wait_time: Wait time for loading all comment. (Default: 30000msec)
+  #   url: URL of the target page of video ID.
   #
   # Returns:
   #   Promise object. Use "then" to recieve results.
-  wait = (delay) ->
-    # Wait timer for Promise chain.
-    #
-    # Results of previous function will be passed to the next function.
-    #
-    # Args:
-    #   delay: Wait time (msec)
-    #
-    # Returns:
-    #   Promise object.
-    (args) ->
-      new Promise (resolve, _) ->
-        setTimeout ->
-          resolve args
-        , delay
-
   check_like_score = (value) ->
     # Check like score and convert to integer if not.
     #
@@ -50,6 +36,10 @@ module.exports = (url, wait_time=30000) ->
     else
       0
 
+  if url.substring(0, HTTPS.length) isnt HTTPS and
+      url.substring(0, HTTP.length) isnt HTTP
+    url = BASE_URL + url
+
   new Promise (resolve, inject) ->
 
     phantom.create().then (ph) ->
@@ -57,7 +47,21 @@ module.exports = (url, wait_time=30000) ->
       ph.createPage().then (page) ->
 
         page.open(url)
-          .then wait(10000)
+
+          .then (status) ->
+            # Check loaded page has header section.
+            # If not, wait more 1000 msec.
+            new Promise (resolve, _) ->
+              do check_header = ->
+                page.evaluate ->
+                  document.getElementsByClassName(
+                    "comment-section-header-renderer").length isnt 0
+                .then (res) ->
+                  if res
+                    resolve status
+                  else
+                    setTimeout check_header, 1000
+
           .then (status) ->
             page.evaluate ->
 
@@ -67,26 +71,36 @@ module.exports = (url, wait_time=30000) ->
                 # Args:
                 #   delay: Wait time for loading a new page.
                 #   callback: function called when all pages will be loded.
-                load = ->
+                do load = ->
                   load_btns = document.getElementsByClassName("load-more-button")
                   if load_btns.length is 0
                     callback()
                   else
                     load_btns[0].click()
                     setTimeout load, delay
-                setTimeout load, delay
 
-              # 2000 msec seems enough to load each page.
-              load_hidden_pages 2000, ->
-
+              # 1000 msec seems enough to load each page.
+              load_hidden_pages 1000, ->
                 # Load omitted comments.
                 for read_more in document.getElementsByClassName("read-more")
                   read_more.firstElementChild.click()
 
-          .then wait(wait_time)
+                document.body.dataset.youtubeCommentScraper = "ready"
+
           .then ->
-            page.evaluate ->
-              return document.body.innerHTML
+            # Check data-youtube-comment-scraper is ready, which means all pages
+            # are loaded and all collapsed comments are expanded.
+            # If not, wait more 1000 msec.
+            new Promise (resolve, _) ->
+              do get_body = ->
+                page.evaluate ->
+                  if document.body.dataset.youtubeCommentScraper is "ready"
+                    document.body.innerHTML
+                .then (html) ->
+                  if html
+                    resolve html
+                  else
+                    setTimeout get_body, 1000
 
           .then (html) ->
             $ = cheerio.load html
