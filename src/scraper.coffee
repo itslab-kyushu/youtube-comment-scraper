@@ -113,9 +113,12 @@ module.exports = (url) ->
                 children.push
                   comment: $(".comment-renderer-text-content", @).text()
                   like: check_like_score $(".comment-renderer-like-count.off", @).text()
+                  author: $(@).data("author-name")
+                  receiver: $(".comment-renderer-text-content", @).find("a").text()
 
               res.push
                 root: $(".comment-renderer-text-content", root).text()
+                author: root.data("author-name")
                 like: check_like_score $(".comment-renderer-like-count.off", root).text()
                 children: children
 
