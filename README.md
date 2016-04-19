@@ -36,11 +36,14 @@ Output is a JSON file and its schema is
   "comments": [
     {
       "root": "root comment",
+      "author": "author of the root comment",
       "like": "like score (summation of +1 for like and -1 for dislike)",
       "children": [
         {
           "comment": "reply comment",
-          "like": "like score"
+          "author": "author of the reply comment.",
+          "like": "like score",
+          "receiver": "receiver name if the comment is a reply for a specific user."
         },
         ...
       ]
