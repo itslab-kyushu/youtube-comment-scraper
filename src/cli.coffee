@@ -12,6 +12,15 @@ argv = require "argv"
 scraper = require "../lib/scraper"
 
 basename = (path) ->
+  ###
+  Get a basename of a path.
+
+  ## Args
+  * path: a path.
+
+  ## Returns
+  The basename of the path.
+  ###
   path.split("/").reverse()[0]
 
 argv.version 'v0.0.1'
