@@ -15,27 +15,33 @@ BASE_URL = "https://www.youtube.com/watch?v="
 HTTPS = "https://"
 HTTP = "http://"
 
-module.exports = (url) ->
-  # Scraping a given Youtube page and return a set of comments.
-  #
-  # Args:
-  #   url: URL of the target page of video ID.
-  #
-  # Returns:
-  #   Promise object. Use "then" to recieve results.
-  check_like_score = (value) ->
-    # Check like score and convert to integer if not.
-    #
-    # Args:
-    #   value: Like score to be checked.
-    #
-    # Returns:
-    #   Integer value.
-    if value? and value is not NaN
-      parseInt value
-    else
-      0
+READY = "ready"
 
+check_like_score = (value) ->
+  ###
+  Check like score and convert to integer if not.
+
+  ## Args
+  * value: Like score to be checked.
+
+  ## Returns
+    Integer value.
+  ###
+  if value? and value is not NaN
+    parseInt value
+  else
+    0
+
+module.exports = (url) ->
+  ###
+  Scraping a given Youtube page and return a set of comments.
+
+  ## Args
+  * url: URL of the target page of video ID.
+
+  ## Returns
+    Promise object. Use "then" method to recieve results.
+  ###
   if url.substring(0, HTTPS.length) isnt HTTPS and
       url.substring(0, HTTP.length) isnt HTTP
     url = BASE_URL + url
@@ -85,7 +91,7 @@ module.exports = (url) ->
                 for read_more in document.getElementsByClassName("read-more")
                   read_more.firstElementChild.click()
 
-                document.body.dataset.youtubeCommentScraper = "ready"
+                document.body.dataset.youtubeCommentScraper = READY
 
           .then ->
             # Check data-youtube-comment-scraper is ready, which means all pages
@@ -94,7 +100,7 @@ module.exports = (url) ->
             new Promise (resolve, _) ->
               do get_body = ->
                 page.evaluate ->
-                  if document.body.dataset.youtubeCommentScraper is "ready"
+                  if document.body.dataset.youtubeCommentScraper is READY
                     document.body.innerHTML
                 .then (html) ->
                   if html
@@ -125,7 +131,6 @@ module.exports = (url) ->
             # Clean up.
             page.close()
             ph.exit()
-
             resolve res
 
           .catch (reason) ->
@@ -134,5 +139,4 @@ module.exports = (url) ->
             # Clean up.
             page.close()
             ph.exit()
-
             reject reason
