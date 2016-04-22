@@ -23,7 +23,7 @@ basename = (path) ->
   ###
   path.split("/").reverse()[0]
 
-argv.version 'v0.0.1'
+argv.version 'v0.0.4'
 argv.info "Usage: #{basename __filename} url [options]"
 
 args = argv.run()
