@@ -26,7 +26,7 @@ gulp.task "bin", ["clean"], ->
 
 
 gulp.task "lib", ["clean"], ->
-  gulp.src "./src/scraper.coffee"
+  gulp.src ["./src/*.coffee", "!./src/cli.coffee"]
     .pipe coffee()
     .pipe gulp.dest "./lib/"
 
