@@ -32,40 +32,53 @@ check_like_score = (value) ->
   else
     0
 
-phantom_instances = []
+phantom_instance = null
 ###
-List of PhantomJS instances.
-
-Basically one instance will be reused. But when get_or_create_phantom method
-called many times at the same time, multiple instances could be created.
-To exit all instances safe, this list holds them.
+PhantomJS instances.
 ###
 
-get_or_create_phantom = ->
+get_or_create_phantom = do ->
   ###
   Get an instance of PhantomJS.
 
   If there are no instances, this function creates it.
   ###
-  if phantom_instances.length isnt 0
-    new Promise (resolve) ->
-      resolve phantom_instances[0]
-  else
-    phantom.create().then (instance) ->
-      phantom_instances.push instance
-      return instance
+  locked = false
+
+  _get_or_create_phantom = ->
+    locked = true
+    if phantom_instance?
+      new Promise (resolve) ->
+        resolve phantom_instance
+        locked = false
+    else
+      phantom.create().then (instance) ->
+        phantom_instance = instance
+        locked = false
+        return instance
+
+  ->
+    if locked
+      new Promise (resolve) ->
+        do wait = ->
+          if locked
+            setTimeout wait, 100
+          else
+            resolve _get_or_create_phantom()
+
+    else
+      _get_or_create_phantom()
 
 
 delete_phantom = ->
   ###
-  Delete PhantomJS instances.
+  Delete PhantomJS instance.
 
   It is safe to call this method many times.
   ###
-  console.log phantom_instances.length
-  while phantom_instances.length isnt 0
-    phantom_instances.pop().exit()
-  return null
+  if phantom_instance?
+    phantom_instance.exit()
+    phantom_instance = null
 
 
 # Register delete_phantom method so that it will be called when
@@ -91,12 +104,11 @@ module.exports = (url) ->
   new Promise (resolve, reject) ->
 
     get_or_create_phantom().then (ph) ->
-      console.log ph
+
       ph.createPage().then (page) ->
 
         page.open(url)
           .then (status) ->
-            console.log status
             # Check loaded page has header section.
             # If not, wait more 1000 msec.
             new Promise (resolve, reject) ->
@@ -114,9 +126,7 @@ module.exports = (url) ->
                   reject reason
 
           .then (status) ->
-            console.log status
             page.evaluate ->
-
               load_hidden_pages = (delay, callback) ->
                 # Load hidden pages.
                 #
@@ -140,7 +150,6 @@ module.exports = (url) ->
                 document.body.dataset.youtubeCommentScraper = "ready"
 
           .then ->
-            console.log "ge"
             # Check data-youtube-comment-scraper is ready, which means all pages
             # are loaded and all collapsed comments are expanded.
             # If not, wait more 1000 msec.
@@ -190,10 +199,9 @@ module.exports = (url) ->
             reject reason
 
 
-module.exports.close = ->
-  ###
-  Close this module.
+module.exports.close = delete_phantom
+###
+Close this module.
 
-  This function should be called to close PhantomJS processes.
-  ###
-  delete_phantom()
+This function should be called to close PhantomJS processes.
+###
