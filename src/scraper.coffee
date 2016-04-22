@@ -15,7 +15,6 @@ BASE_URL = "https://www.youtube.com/watch?v="
 HTTPS = "https://"
 HTTP = "http://"
 
-READY = "ready"
 
 check_like_score = (value) ->
   ###
@@ -46,7 +45,7 @@ module.exports = (url) ->
       url.substring(0, HTTP.length) isnt HTTP
     url = BASE_URL + url
 
-  new Promise (resolve, inject) ->
+  new Promise (resolve, reject) ->
 
     phantom.create().then (ph) ->
 
@@ -57,7 +56,7 @@ module.exports = (url) ->
           .then (status) ->
             # Check loaded page has header section.
             # If not, wait more 1000 msec.
-            new Promise (resolve, _) ->
+            new Promise (resolve, reject) ->
               do check_header = ->
                 page.evaluate ->
                   document.getElementsByClassName(
@@ -67,6 +66,9 @@ module.exports = (url) ->
                     resolve status
                   else
                     setTimeout check_header, 1000
+
+                .catch (reason) ->
+                  reject reason
 
           .then (status) ->
             page.evaluate ->
@@ -91,22 +93,25 @@ module.exports = (url) ->
                 for read_more in document.getElementsByClassName("read-more")
                   read_more.firstElementChild.click()
 
-                document.body.dataset.youtubeCommentScraper = READY
+                document.body.dataset.youtubeCommentScraper = "ready"
 
           .then ->
             # Check data-youtube-comment-scraper is ready, which means all pages
             # are loaded and all collapsed comments are expanded.
             # If not, wait more 1000 msec.
-            new Promise (resolve, _) ->
+            new Promise (resolve, reject) ->
               do get_body = ->
                 page.evaluate ->
-                  if document.body.dataset.youtubeCommentScraper is READY
+                  if document.body.dataset.youtubeCommentScraper is "ready"
                     document.body.innerHTML
                 .then (html) ->
                   if html
                     resolve html
                   else
                     setTimeout get_body, 1000
+
+                .catch (reason) ->
+                  reject reason
 
           .then (html) ->
             $ = cheerio.load html
@@ -140,3 +145,10 @@ module.exports = (url) ->
             page.close()
             ph.exit()
             reject reason
+
+      .catch (resaon) ->
+        ph.exit()
+        reject reason
+
+    .catch (reason) ->
+      reject reason
