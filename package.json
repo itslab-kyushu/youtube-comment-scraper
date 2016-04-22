@@ -2,6 +2,10 @@
   "name": "youtube-comment-scraper",
   "version": "0.0.4",
   "description": "Scraping comments from Youtube.",
+  "keywords": [
+    "scraping",
+    "youtube"
+  ],
   "main": "./lib/scraper.js",
   "bin": {
     "scraper": "./bin/cli.js"
