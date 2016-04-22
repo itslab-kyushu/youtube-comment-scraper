@@ -8,8 +8,8 @@
 # http://opensource.org/licenses/mit-license.php
 #
 # coffeelint: disable=max_line_length
-phantom = require "phantom"
 cheerio = require "cheerio"
+phantom = require "./phantom-helper"
 
 BASE_URL = "https://www.youtube.com/watch?v="
 HTTPS = "https://"
@@ -31,6 +31,7 @@ check_like_score = (value) ->
   else
     0
 
+
 module.exports = (url) ->
   ###
   Scraping a given Youtube page and return a set of comments.
@@ -47,12 +48,11 @@ module.exports = (url) ->
 
   new Promise (resolve, reject) ->
 
-    phantom.create().then (ph) ->
+    phantom.get().then (ph) ->
 
       ph.createPage().then (page) ->
 
         page.open(url)
-
           .then (status) ->
             # Check loaded page has header section.
             # If not, wait more 1000 msec.
@@ -72,7 +72,6 @@ module.exports = (url) ->
 
           .then (status) ->
             page.evaluate ->
-
               load_hidden_pages = (delay, callback) ->
                 # Load hidden pages.
                 #
@@ -135,7 +134,6 @@ module.exports = (url) ->
 
             # Clean up.
             page.close()
-            ph.exit()
             resolve res
 
           .catch (reason) ->
@@ -143,12 +141,12 @@ module.exports = (url) ->
 
             # Clean up.
             page.close()
-            ph.exit()
             reject reason
 
-      .catch (resaon) ->
-        ph.exit()
-        reject reason
 
-    .catch (reason) ->
-      reject reason
+module.exports.close = phantom.delete
+###
+Close this module.
+
+This function should be called to close PhantomJS processes.
+###

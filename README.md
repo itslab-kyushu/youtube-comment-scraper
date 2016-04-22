@@ -68,13 +68,22 @@ Scraping a given Youtube page and return a set of comments.
 - Returns:
  Promise object. Use "then" to recieve results.
 
+### `scraper.close()`
+Cleanup this module. After all scrapings have done, this method should be called.
+Otherwise, some instances of PhantomJS will keep running and it prevents
+finishing main process.
+
 ### example
 ```js
 scraper(some_url).then(function(res) {
-  return console.log(JSON.stringify({
+  // Printing the result.
+  console.log(JSON.stringify({
     url: some_url,
     comments: res
   }));
+
+  // Close scraper.
+  scraper.close();
 });
 ```
 

@@ -34,6 +34,7 @@ if url?
     console.log JSON.stringify
       url: url
       comments: res
+    scraper.close()
 
 else
   argv.help()
