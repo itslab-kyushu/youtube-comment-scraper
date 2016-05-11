@@ -118,6 +118,9 @@ module.exports = (url) ->
                   reject reason
 
           .then (html) ->
+            # Close the page and release resources.
+            page.close()
+
             $ = cheerio.load html
 
             res = []
@@ -143,8 +146,6 @@ module.exports = (url) ->
                 comment.children = children
               res.push comment
 
-            # Clean up.
-            page.close()
 
             user = $(".yt-user-info a")
             resolve
@@ -158,6 +159,44 @@ module.exports = (url) ->
             console.error reason
 
             # Clean up.
+            page.close()
+            reject reason
+
+
+module.exports.channel = (id) ->
+  ###
+  Scraping a Youtube channel page and return a description of the channel.
+
+  ## Args
+  * id: channel ID.
+
+  ## Returns
+    Promise object. Use "then" method to recieve results.
+  ###
+  url = "https://www.youtube.com/channel/#{id}/about"
+  new Promise (resolve, reject) ->
+
+    phantom.get().then (ph) ->
+
+      ph.createPage().then (page) ->
+
+        page.open(url)
+          .then ->
+            page.evaluate ->
+              document.body.innerHTML
+
+          .then (html) ->
+            # Close the page and release resources.
+            page.close()
+
+            $ = cheerio.load html
+            resolve
+              id: id
+              name: $(".qualified-channel-title-text").text()
+              description: $(".about-description").text().replace(/^\s+|\s+$/g, "")
+
+          .catch (reason) ->
+            console.error reason
             page.close()
             reject reason
 
