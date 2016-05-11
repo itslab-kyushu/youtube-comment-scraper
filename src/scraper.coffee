@@ -14,7 +14,8 @@ phantom = require "./phantom-helper"
 BASE_URL = "https://www.youtube.com/watch?v="
 HTTPS = "https://"
 HTTP = "http://"
-
+URL_PARAM = "watch?v="
+URL_CHANNEL = "/channel/"
 
 check_like_score = (value) ->
   ###
@@ -44,7 +45,11 @@ module.exports = (url) ->
   ###
   if url.substring(0, HTTPS.length) isnt HTTPS and
       url.substring(0, HTTP.length) isnt HTTP
+    id = url
     url = BASE_URL + url
+  else
+    sp = url.split("/")
+    id = sp[sp.length - 1].substring(URL_PARAM.length)
 
   new Promise (resolve, reject) ->
 
@@ -114,6 +119,7 @@ module.exports = (url) ->
 
           .then (html) ->
             $ = cheerio.load html
+
             res = []
             $(".comment-thread-renderer").each ->
               root = $(@).children().first()
@@ -134,7 +140,14 @@ module.exports = (url) ->
 
             # Clean up.
             page.close()
-            resolve res
+
+            user = $(".yt-user-info a")
+            resolve
+              id:id
+              channel:
+                id: user.attr("href").substring URL_CHANNEL.length
+                name: user.text()
+              comments: res
 
           .catch (reason) ->
             console.error reason

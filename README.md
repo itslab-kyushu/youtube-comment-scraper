@@ -32,17 +32,21 @@ Output is a JSON file and its schema is
 
 ```json
 {
-  "url": "the given url",
+  "id": "the video ID.",
+  "channel":{
+    "id": "ID of the channel the video belongs to.",
+    "name" : "the channel name."
+  },
   "comments": [
     {
-      "root": "root comment",
-      "author": "author of the root comment",
-      "like": "like score (summation of +1 for like and -1 for dislike)",
+      "root": "root comment.",
+      "author": "author of the root comment.",
+      "like": "like score (summation of +1 for like and -1 for dislike).",
       "children": [
         {
-          "comment": "reply comment",
+          "comment": "reply comment.",
           "author": "author of the reply comment.",
-          "like": "like score",
+          "like": "like score.",
           "receiver": "receiver name if the comment is a reply for a specific user."
         },
         ...

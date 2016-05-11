@@ -31,9 +31,7 @@ url = args.targets[0]
 
 if url?
   scraper(url).then (res) ->
-    console.log JSON.stringify
-      url: url
-      comments: res
+    console.log JSON.stringify(res)
     scraper.close()
 
 else
