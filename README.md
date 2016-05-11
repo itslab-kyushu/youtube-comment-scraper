@@ -70,9 +70,15 @@ Scraping a given Youtube page and return a set of comments.
 - Args:
   - url: URL of the target page or video ID.
 - Returns:
- Promise object. Use "then" to recieve results.
+ Promise object. Use "then" to receive results.
 
 ### `scraper.channel(url)`
+Scraping a Youtube channel page and return a description of the channel.
+
+- Args:
+  - id: channel ID.
+- Returns:
+  Promise object. Use "then" method to receive results.
 
 ### `scraper.close()`
 Cleanup this module. After all scrapings have done, this method should be called.
