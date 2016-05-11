@@ -64,13 +64,15 @@ Method
 var scraper = require("youtube-comment-scraper");
 ```
 
-### `scraper(url)`
+### `scraper.comments(url)`
 Scraping a given Youtube page and return a set of comments.
 
 - Args:
   - url: URL of the target page or video ID.
 - Returns:
  Promise object. Use "then" to recieve results.
+
+### `scraper.channel(url)`
 
 ### `scraper.close()`
 Cleanup this module. After all scrapings have done, this method should be called.

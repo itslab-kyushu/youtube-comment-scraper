@@ -9,7 +9,7 @@
 # http://opensource.org/licenses/mit-license.php
 #
 argv = require "argv"
-scraper = require "../lib/scraper"
+{comments, close} = require "../lib/scraper"
 
 basename = (path) ->
   ###
@@ -30,9 +30,9 @@ args = argv.run()
 url = args.targets[0]
 
 if url?
-  scraper(url).then (res) ->
+  comments(url).then (res) ->
     console.log JSON.stringify(res)
-    scraper.close()
+    close()
 
 else
   argv.help()
