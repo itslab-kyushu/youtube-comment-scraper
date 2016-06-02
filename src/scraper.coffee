@@ -27,10 +27,11 @@ check_like_score = (value) ->
   ## Returns
     Integer value.
   ###
-  if value? and value is not NaN
-    parseInt value
-  else
-    0
+  if value?
+    res = parseInt value, 10
+    if not isNaN res
+      return res
+  return 0
 
 
 module.exports =
@@ -96,8 +97,9 @@ module.exports =
                 # 1000 msec seems enough to load each page.
                 load_hidden_pages 1000, ->
                   # Load omitted comments.
-                  for read_more in document.getElementsByClassName("read-more")
-                    read_more.firstElementChild.click()
+                  for read_more in document.getElementsByClassName("comment-replies-renderer-expander-down")
+                    # read_more.firstElementChild.click()
+                    read_more.click()
 
                   document.body.dataset.youtubeCommentScraper = "ready"
 
