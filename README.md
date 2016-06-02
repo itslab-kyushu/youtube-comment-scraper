@@ -87,7 +87,7 @@ finishing main process.
 
 ### example
 ```js
-scraper(some_url).then(function(res) {
+scraper.comments(some_url).then(function(res) {
   // Printing the result.
   console.log(JSON.stringify({
     url: some_url,
