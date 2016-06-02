@@ -132,7 +132,7 @@ module.exports =
                 root = $(@).children().first()
 
                 children = []
-                $(".comment-replies-renderer .comment-renderer", @).each (i) ->
+                $(".comment-replies-renderer .comment-replies-renderer-pages .comment-renderer", @).each (i) ->
                   child =
                     comment: $(".comment-renderer-text-content", @).text()
                     like: check_like_score $(".comment-renderer-like-count.off", @).text()
