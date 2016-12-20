@@ -1,0 +1,18 @@
+box: jkawamoto/ghp-box
+build:
+  steps:
+    - script:
+        name: Prepare submodules
+        code: |-
+          git submodule update --init
+    - arjen/hugo-build:
+        version: "0.15"
+        basedir: docs
+    - samueldebruyn/minify:
+        base_dir: docs/public
+        js: false
+deploy:
+  steps:
+    - lukevivier/gh-pages:
+        token: $GIT_TOKEN
+        basedir: docs/public

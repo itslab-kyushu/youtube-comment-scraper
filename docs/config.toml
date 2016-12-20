@@ -1,0 +1,10 @@
+baseurl = "https://itslab-kyushu.github.io/youtube-comment-scraper/"
+languageCode = "en-us"
+title = "YouTube Comment Scraper"
+theme = "purehugo"
+Paginate = 10
+
+[params]
+  githubName = "itslab-kyushu/youtube-comment-scraper"
+  description = "Scraping comments from YouTube."
+  google_analytics = "UA-89247555-1"
