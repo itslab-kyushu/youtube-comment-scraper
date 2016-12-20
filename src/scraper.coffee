@@ -133,18 +133,22 @@ module.exports =
 
                 children = []
                 $(".comment-replies-renderer .comment-replies-renderer-pages .comment-renderer", @).each (i) ->
+                  author = $(".comment-renderer-header", @).children().first()
                   child =
                     comment: $(".comment-renderer-text-content", @).text()
+                    author: author.text()
+                    author_id: author.data("ytid")
                     like: check_like_score $(".comment-renderer-like-count.off", @).text()
-                    author: $(@).data("author-name")
                   receiver = $(".comment-renderer-text-content", @).find("a").text()
                   if receiver isnt ""
                     child.receiver = receiver
                   children.push child
 
+                author = $(".comment-renderer-header", root).children().first()
                 comment =
                   root: $(".comment-renderer-text-content", root).text()
-                  author: root.data("author-name")
+                  author: author.text()
+                  author_id: author.data("ytid")
                   like: check_like_score $(".comment-renderer-like-count.off", root).text()
                 if children.length isnt 0
                   comment.children = children
