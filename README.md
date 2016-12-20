@@ -1,5 +1,4 @@
-Youtube comment scraper
-==========================
+# Youtube comment scraper
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![npm version](https://badge.fury.io/js/youtube-comment-scraper.svg)](https://badge.fury.io/js/youtube-comment-scraper)
 [![Code Climate](https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper/badges/gpa.svg)](https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper)
@@ -7,15 +6,15 @@ Youtube comment scraper
 
 Scraping comments from Youtube.
 
-Install
-----------
+## Installation
+To install `youtube-comment-scraper` in your global environment,
 ```sh
 $ npm install -g youtube-comment-scraper
 ```
+after that, you can use `scraper` command.
 
-Usage
--------
 
+## Usage
 ```
 Usage: scraper url [options]
 
@@ -29,7 +28,8 @@ Usage: scraper url [options]
                 Displays version info
 ```
 
-Output is a JSON file and its schema is
+Output is a JSON format text.
+Its schema looks like
 
 ```json
 {
@@ -40,15 +40,16 @@ Output is a JSON file and its schema is
   },
   "comments": [
     {
-      "root": "root comment.",
+      "root": "root (parent) comment body.",
       "author": "author of the root comment.",
+      "author_id": "ID of the author",
       "like": "like score (summation of +1 for like and -1 for dislike).",
       "children": [
         {
           "comment": "reply comment.",
           "author": "author of the reply comment.",
-          "like": "like score.",
-          "receiver": "receiver name if the comment is a reply for a specific user."
+          "author_id": "author ID",
+          "like": "like score."
         },
         ...
       ]
