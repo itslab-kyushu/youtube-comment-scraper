@@ -1,0 +1,45 @@
+{{ partial "header.html" . }}
+
+<div id="layout" class="pure-g">
+    {{ partial "sidebar.html" . }}
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+                {{ range .Paginator.Pages }}
+                <h1 class="content-subhead">{{ .Date.Format "02 Jan 2006, 15:04" }}</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="{{ .Permalink }}" class="post-title">{{ .Title }}</a>
+
+                        <p class="post-meta">
+                            {{ with .Params.author }}
+                                By <strong class="post-author">{{ . }}</strong>
+                            {{ end }}
+                            {{ if isset .Params "categories" }}
+                                under
+                                {{ $baseUrl := .Site.BaseURL }}
+                                {{ range .Params.categories }}<a class="post-category post-category-{{ . }}" href="{{ $baseUrl }}/categories/{{ . | urlize }}">{{ . }}</a>{{ end }}
+                            {{ end }}
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        {{ .Content }}
+                    </div>
+                    <!-- Go to www.addthis.com/dashboard to customize your tools --> <div class="addthis_inline_share_toolbox"></div>
+                </section>
+                {{ end }}
+            </div>
+            {{ partial "pagination.html" . }}
+            {{ partial "footer.html" . }}
+        </div>
+    </div>
+</div>
+
+{{ partial "analytics.html" . }}
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-585b3ef9cae64e1e"></script>
+</body>
+</html>
