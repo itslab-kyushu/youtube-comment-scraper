@@ -1,9 +1,9 @@
 ---
 title: YouTube comment scraper
-date: 2016-12-20
+date: 2017-02-11
 description: Scraping comments from Youtube.
 ---
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE)
 [![npm version](https://badge.fury.io/js/youtube-comment-scraper.svg)](https://badge.fury.io/js/youtube-comment-scraper)
 [![Code Climate](https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper/badges/gpa.svg)](https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper)
 [![Japanese](https://img.shields.io/badge/qiita-%E6%97%A5%E6%9C%AC%E8%AA%9E-brightgreen.svg)](http://qiita.com/jkawamoto/items/97d88f27c7d13df8dbf5)
@@ -126,4 +126,5 @@ $ ./bin/cli.js <url>
 
 License
 --------
-This software is released under the MIT License, see [LICENSE](LICENSE).
+This software is released under the MIT License, see
+[LICENSE](https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE).

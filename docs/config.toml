@@ -1,10 +1,36 @@
 baseurl = "https://itslab-kyushu.github.io/youtube-comment-scraper/"
 languageCode = "en-us"
+metadataformat = "yaml"
 title = "YouTube Comment Scraper"
-theme = "purehugo"
-Paginate = 10
+theme = "hugo-alabaster-theme"
+
+disqusShortname = ""
+googleAnalytics = "UA-89247555-1"
 
 [params]
-  githubName = "itslab-kyushu/youtube-comment-scraper"
-  description = "Scraping comments from YouTube."
-  google_analytics = "UA-89247555-1"
+	name = "YouTube Comment Scraper"
+	description = "Scraping comments from YouTube."
+
+	github_user   = "itslab-kyushu"
+	github_repo   = "youtube-comment-scraper"
+	github_banner = true
+
+	custom_css = []
+	custom_js  = []
+
+	highlightjs = "css/highlight.css"
+	favicon = "favicon.ico"
+
+[params.sidebar]
+	logo = "favicon.ico"
+
+	github_button  = true
+	travis_button  = false
+	codecov_button = false
+	gratipay = "~jkawamoto"
+
+	show_relations = false
+
+[params.footer]
+	copyright = "[Junpei Kawamoto](https://github.com/jkawamoto/) | Icon by [Clipart Kid](http://www.clipartkid.com/)"
+	show_powered_by = true
