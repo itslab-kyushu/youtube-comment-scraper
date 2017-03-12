@@ -12,7 +12,8 @@
   },
   "scripts": {
     "build": "gulp build",
-    "doc": "coffeedoc src"
+    "doc": "coffeedoc src",
+    "check-update": "ncu -u"
   },
   "author": "Junpei Kawamoto <kawamoto.junpei@gmail.com>",
   "license": "MIT",
@@ -37,7 +38,7 @@
     "argv": "0.0.2",
     "cheerio": "^0.22.0",
     "coffee-script": "^1.12.2",
-    "phantom": "^3.2.1"
+    "phantom": "^4.0.0"
   },
   "devDependencies": {
     "coffeedoc": "^0.3.1",
@@ -45,6 +46,7 @@
     "gulp": "^3.9.1",
     "gulp-chmod": "^2.0.0",
     "gulp-coffee": "^2.3.3",
-    "gulp-inject-string": "^1.1.0"
+    "gulp-inject-string": "^1.1.0",
+    "npm-check-updates": "^2.10.2"
   }
 }
