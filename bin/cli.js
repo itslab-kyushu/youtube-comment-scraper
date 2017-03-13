@@ -10,25 +10,40 @@
 // http://opensource.org/licenses/mit-license.php
 //
 const {
+    channel,
     comments,
     close
 } = require("../lib/scraper");
 
 const argv = require("yargs")
     .usage("Usage: $0 url")
+    .option("channel", {
+        boolean: true,
+        description: "If set, scrape channel infomration."
+    })
     .demandCommand(1)
     .version()
     .help("h")
     .alias("h", "help")
     .argv;
 
-
 const url = argv._[0];
-console.log(`Getting comments from the video: ${url}`);
-comments(url).then((res) => {
-    console.log(JSON.stringify(res));
-    close();
-}).catch((err) => {
-    console.error(err);
-    close();
-});
+if (argv.channel) {
+    console.log(`Getting comments from channel ${url}`);
+    channel(url).then((res) => {
+        console.log(JSON.stringify(res));
+        close();
+    }).catch((err) => {
+        console.error(err);
+        close();
+    })
+} else {
+    console.log(`Getting comments from video ${url}`);
+    comments(url).then((res) => {
+        console.log(JSON.stringify(res));
+        close();
+    }).catch((err) => {
+        console.error(err);
+        close();
+    });
+}
