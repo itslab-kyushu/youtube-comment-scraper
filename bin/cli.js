@@ -29,7 +29,7 @@ const argv = require("yargs")
 
 const url = argv._[0];
 if (argv.channel) {
-    console.log(`Getting comments from channel ${url}`);
+    console.warn(`Getting comments from channel ${url}`);
     channel(url).then((res) => {
         console.log(JSON.stringify(res));
         close();
@@ -38,7 +38,7 @@ if (argv.channel) {
         close();
     })
 } else {
-    console.log(`Getting comments from video ${url}`);
+    console.warn(`Getting comments from video ${url}`);
     comments(url).then((res) => {
         console.log(JSON.stringify(res));
         close();
