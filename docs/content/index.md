@@ -1,6 +1,8 @@
 ---
 title: YouTube comment scraper
+type: homepage
 date: 2017-02-11
+lastmod: 2017-03-14
 description: Scraping comments from Youtube.
 ---
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE)
@@ -64,8 +66,8 @@ Its schema looks like
 ```
 
 
-Method
----------
+## Method
+
 ```js
 var scraper = require("youtube-comment-scraper");
 ```
@@ -105,8 +107,7 @@ scraper.comments(some_url).then(function(res) {
 });
 ```
 
-For developers
------------------
+## For developers
 
 ### Build
 Run the following two command.
@@ -124,7 +125,7 @@ $ ./bin/cli.js <url>
 
 `<url>` is a Youtube url.
 
-License
---------
+## License
+
 This software is released under the MIT License, see
 [LICENSE](https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE).
