@@ -15,10 +15,9 @@ googleAnalytics = "UA-89247555-1"
 	github_repo   = "youtube-comment-scraper"
 	github_banner = true
 
-	custom_css = []
+  custom_css = ["css/custom.css"]
 	custom_js  = []
 
-	highlightjs = "css/highlight.css"
 	favicon = "favicon.ico"
 
 [params.sidebar]

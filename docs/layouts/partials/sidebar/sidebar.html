@@ -1,0 +1,36 @@
+<div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+	<div class="sphinxsidebarwrapper">
+		<p class="logo">
+			<a href="{{ .Site.BaseURL }}">
+				{{ with .Site.Params.sidebar.logo -}}
+					<img class="logo" src="{{ $.Site.BaseURL }}{{ . }}" alt="Logo"/>
+				{{- end }}
+				<h1 class="logo logo-name">{{ .Site.Params.name }}</h1>
+			</a>
+		</p>
+
+		{{ with .Site.Params.description -}}
+		<p class="blurb">{{ . | markdownify }}</p>
+		{{- end }}
+
+		{{ partial "sidebar/buttons" . }}
+		{{ partial "sidebar/donate" . }}
+		{{ partial "sidebar/menu" . }}
+		{{ partial "sidebar/relations" . }}
+
+    <hr/>
+    <p>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4734862314145555"
+           data-ad-slot="6733697427"
+           data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </p>
+
+	</div>
+</div>
+<div class="clearer"></div>
+</div>

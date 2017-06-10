@@ -1,9 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 	{{ partial "head" . }}
 
 	<body role="document">
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({
+				google_ad_client: "ca-pub-4734862314145555",
+				enable_page_level_ads: true
+			});
+		</script>
 		<div class="document">
 			<div class="documentwrapper">
 				<div class="bodywrapper">
@@ -13,6 +19,18 @@
 						{{ if not .IsHome -}}
 						{{ template "_internal/disqus.html" . }}
 						{{- end }}
+
+						<div>
+							<ins class="adsbygoogle"
+				           style="display:block"
+				           data-ad-client="ca-pub-4734862314145555"
+				           data-ad-slot="6733697427"
+				           data-ad-format="auto"></ins>
+							<script>
+							(adsbygoogle = window.adsbygoogle || []).push({});
+							</script>
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -24,14 +42,15 @@
 				<script src="{{ $.Site.BaseURL }}{{ . }}"></script>
 			{{- end }}
 
-			{{ with .Site.Params.highlightjs -}}
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
-			<script>hljs.initHighlightingOnLoad();</script>
-			{{ end }}
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css" type="text/css" />
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script>
 
 			{{ template "_internal/google_analytics.html" . }}
 		</div>
-    <!-- Go to www.addthis.com/dashboard to customize your tools -->
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-585b3ef9cae64e1e"></script>
+
+		{{ with .Site.Params.addthis }}
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ . }}"></script>
+		{{ end }}
 	</body>
 </html>

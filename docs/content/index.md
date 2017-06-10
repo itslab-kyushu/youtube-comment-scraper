@@ -14,25 +14,25 @@ Scraping comments from Youtube.
 
 ## Installation
 To install `youtube-comment-scraper` in your global environment,
-```sh
+```shell
 $ npm install -g youtube-comment-scraper
 ```
 after that, you can use `scraper` command.
 
 
 ## Usage
-```
+~~~shell
 Usage: scraper url [options]
 
-        url
-                URL for a Youtube video page or video ID.
+  url
+    URL for a Youtube video page or video ID.
 
-        --help, -h
-                Displays help information about this script
+  --help, -h
+    Displays help information about this script
 
-        --version
-                Displays version info
-```
+  --version
+    Displays version info
+~~~
 
 Output is a JSON format text.
 Its schema looks like
@@ -112,14 +112,14 @@ scraper.comments(some_url).then(function(res) {
 ### Build
 Run the following two command.
 
-```sh
+```shell
 $ npm install
 $ npm run build
 ```
 
 ### Run
 
-```sh
+```shell
 $ ./bin/cli.js <url>
 ```
 
