@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>YouTube Comment Scraper</title>
+    <link>https://itslab-kyushu.github.io/youtube-comment-scraper/index.xml</link>
+    <description>Recent content on YouTube Comment Scraper</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 11 Feb 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://itslab-kyushu.github.io/youtube-comment-scraper/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>YouTube comment scraper</title>
+      <link>https://itslab-kyushu.github.io/youtube-comment-scraper/</link>
+      <pubDate>Sat, 11 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://itslab-kyushu.github.io/youtube-comment-scraper/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE&#34;&gt;&lt;img src=&#34;http://img.shields.io/badge/license-MIT-blue.svg?style=flat&#34; alt=&#34;MIT License&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://badge.fury.io/js/youtube-comment-scraper&#34;&gt;&lt;img src=&#34;https://badge.fury.io/js/youtube-comment-scraper.svg&#34; alt=&#34;npm version&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper&#34;&gt;&lt;img src=&#34;https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper/badges/gpa.svg&#34; alt=&#34;Code Climate&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;http://qiita.com/jkawamoto/items/97d88f27c7d13df8dbf5&#34;&gt;&lt;img src=&#34;https://img.shields.io/badge/qiita-%E6%97%A5%E6%9C%AC%E8%AA%9E-brightgreen.svg&#34; alt=&#34;Japanese&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Scraping comments from Youtube.&lt;/p&gt;
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;To install &lt;code&gt;youtube-comment-scraper&lt;/code&gt; in your global environment,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ npm install -g youtube-comment-scraper
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;after that, you can use &lt;code&gt;scraper&lt;/code&gt; command.&lt;/p&gt;
+
+&lt;h2 id=&#34;usage&#34;&gt;Usage&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Usage: scraper url [options]
+
+  url
+    URL for a Youtube video page or video ID.
+
+  --help, -h
+    Displays help information about this script
+
+  --version
+    Displays version info
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output is a JSON format text.
+Its schema looks like&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+  &amp;quot;id&amp;quot;: &amp;quot;the video ID.&amp;quot;,
+  &amp;quot;channel&amp;quot;:{
+    &amp;quot;id&amp;quot;: &amp;quot;ID of the channel the video belongs to.&amp;quot;,
+    &amp;quot;name&amp;quot; : &amp;quot;the channel name.&amp;quot;
+  },
+  &amp;quot;comments&amp;quot;: [
+    {
+      &amp;quot;root&amp;quot;: &amp;quot;root (parent) comment body.&amp;quot;,
+      &amp;quot;author&amp;quot;: &amp;quot;author of the root comment.&amp;quot;,
+      &amp;quot;author_id&amp;quot;: &amp;quot;ID of the author&amp;quot;,
+      &amp;quot;like&amp;quot;: &amp;quot;like score (summation of +1 for like and -1 for dislike).&amp;quot;,
+      &amp;quot;children&amp;quot;: [
+        {
+          &amp;quot;comment&amp;quot;: &amp;quot;reply comment.&amp;quot;,
+          &amp;quot;author&amp;quot;: &amp;quot;author of the reply comment.&amp;quot;,
+          &amp;quot;author_id&amp;quot;: &amp;quot;author ID&amp;quot;,
+          &amp;quot;like&amp;quot;: &amp;quot;like score.&amp;quot;
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;method&#34;&gt;Method&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var scraper = require(&amp;quot;youtube-comment-scraper&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;scraper-comments-url&#34;&gt;&lt;code&gt;scraper.comments(url)&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Scraping a given Youtube page and return a set of comments.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Args:
+
+&lt;ul&gt;
+&lt;li&gt;url: URL of the target page or video ID.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Returns:
+Promise object. Use &amp;ldquo;then&amp;rdquo; to receive results.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;scraper-channel-url&#34;&gt;&lt;code&gt;scraper.channel(url)&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Scraping a Youtube channel page and return a description of the channel.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Args:
+
+&lt;ul&gt;
+&lt;li&gt;id: channel ID.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Returns:
+Promise object. Use &amp;ldquo;then&amp;rdquo; method to receive results.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;scraper-close&#34;&gt;&lt;code&gt;scraper.close()&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Cleanup this module. After all scrapings have done, this method should be called.
+Otherwise, some instances of PhantomJS will keep running and it prevents
+finishing main process.&lt;/p&gt;
+
+&lt;h3 id=&#34;example&#34;&gt;example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;scraper.comments(some_url).then(function(res) {
+  // Printing the result.
+  console.log(JSON.stringify({
+    url: some_url,
+    comments: res
+  }));
+
+  // Close scraper.
+  scraper.close();
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;for-developers&#34;&gt;For developers&lt;/h2&gt;
+
+&lt;h3 id=&#34;build&#34;&gt;Build&lt;/h3&gt;
+
+&lt;p&gt;Run the following two command.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ npm install
+$ npm run build
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;run&#34;&gt;Run&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ ./bin/cli.js &amp;lt;url&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;url&amp;gt;&lt;/code&gt; is a Youtube url.&lt;/p&gt;
+
+&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
+
+&lt;p&gt;This software is released under the MIT License, see
+&lt;a href=&#34;https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE&#34;&gt;LICENSE&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

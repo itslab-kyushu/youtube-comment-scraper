@@ -1,0 +1,51 @@
+<!DOCTYPE html> <html> <head lang="en-us"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width,initial-scale=0.9,maximum-scale=0.9"> <meta name="description" content="Scraping comments from YouTube."> <meta name="generator" content="Hugo 0.18.1"> <title> YouTube Comment Scraper</title> <link rel="stylesheet" href="https://itslab-kyushu.github.io/youtube-comment-scraper/css/alabaster.css"> <link rel="stylesheet" href="https://itslab-kyushu.github.io/youtube-comment-scraper/css/custom.css"> <link rel="shortcut icon" href="https://itslab-kyushu.github.io/youtube-comment-scraper/favicon.ico" type="image/x-icon"> </head> <body role="document"> <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"ca-pub-4734862314145555",enable_page_level_ads:!0})</script> <div class="document"> <div class="documentwrapper"> <div class="bodywrapper"> <div class="body" role="main"> <h1>YouTube comment scraper</h1> <p><a href="https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a> <a href="https://badge.fury.io/js/youtube-comment-scraper"><img src="https://badge.fury.io/js/youtube-comment-scraper.svg" alt="npm version"></a> <a href="https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper"><img src="https://codeclimate.com/github/itslab-kyushu/youtube-comment-scraper/badges/gpa.svg" alt="Code Climate"></a> <a href="http://qiita.com/jkawamoto/items/97d88f27c7d13df8dbf5"><img src="https://img.shields.io/badge/qiita-%E6%97%A5%E6%9C%AC%E8%AA%9E-brightgreen.svg" alt="Japanese"></a></p> <p>Scraping comments from Youtube.</p> <h2 id="installation">Installation</h2> <p>To install <code>youtube-comment-scraper</code> in your global environment,</p> <pre><code class="language-shell">$ npm install -g youtube-comment-scraper
+</code></pre> <p>after that, you can use <code>scraper</code> command.</p> <h2 id="usage">Usage</h2> <pre><code class="language-shell">Usage: scraper url [options]
+
+  url
+    URL for a Youtube video page or video ID.
+
+  --help, -h
+    Displays help information about this script
+
+  --version
+    Displays version info
+</code></pre> <p>Output is a JSON format text. Its schema looks like</p> <pre><code class="language-json">{
+  &quot;id&quot;: &quot;the video ID.&quot;,
+  &quot;channel&quot;:{
+    &quot;id&quot;: &quot;ID of the channel the video belongs to.&quot;,
+    &quot;name&quot; : &quot;the channel name.&quot;
+  },
+  &quot;comments&quot;: [
+    {
+      &quot;root&quot;: &quot;root (parent) comment body.&quot;,
+      &quot;author&quot;: &quot;author of the root comment.&quot;,
+      &quot;author_id&quot;: &quot;ID of the author&quot;,
+      &quot;like&quot;: &quot;like score (summation of +1 for like and -1 for dislike).&quot;,
+      &quot;children&quot;: [
+        {
+          &quot;comment&quot;: &quot;reply comment.&quot;,
+          &quot;author&quot;: &quot;author of the reply comment.&quot;,
+          &quot;author_id&quot;: &quot;author ID&quot;,
+          &quot;like&quot;: &quot;like score.&quot;
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+</code></pre> <h2 id="method">Method</h2> <pre><code class="language-js">var scraper = require(&quot;youtube-comment-scraper&quot;);
+</code></pre> <h3 id="scraper-comments-url"><code>scraper.comments(url)</code></h3> <p>Scraping a given Youtube page and return a set of comments.</p> <ul> <li>Args: <ul> <li>url: URL of the target page or video ID.</li> </ul></li> <li>Returns: Promise object. Use &ldquo;then&rdquo; to receive results.</li> </ul> <h3 id="scraper-channel-url"><code>scraper.channel(url)</code></h3> <p>Scraping a Youtube channel page and return a description of the channel.</p> <ul> <li>Args: <ul> <li>id: channel ID.</li> </ul></li> <li>Returns: Promise object. Use &ldquo;then&rdquo; method to receive results.</li> </ul> <h3 id="scraper-close"><code>scraper.close()</code></h3> <p>Cleanup this module. After all scrapings have done, this method should be called. Otherwise, some instances of PhantomJS will keep running and it prevents finishing main process.</p> <h3 id="example">example</h3> <pre><code class="language-js">scraper.comments(some_url).then(function(res) {
+  // Printing the result.
+  console.log(JSON.stringify({
+    url: some_url,
+    comments: res
+  }));
+
+  // Close scraper.
+  scraper.close();
+});
+</code></pre> <h2 id="for-developers">For developers</h2> <h3 id="build">Build</h3> <p>Run the following two command.</p> <pre><code class="language-shell">$ npm install
+$ npm run build
+</code></pre> <h3 id="run">Run</h3> <pre><code class="language-shell">$ ./bin/cli.js &lt;url&gt;
+</code></pre> <p><code>&lt;url&gt;</code> is a Youtube url.</p> <h2 id="license">License</h2> <p>This software is released under the MIT License, see <a href="https://github.com/itslab-kyushu/youtube-comment-scraper/blob/master/LICENSE">LICENSE</a>.</p> <div> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4734862314145555" data-ad-slot="6733697427" data-ad-format="auto"></ins> <script>(adsbygoogle=window.adsbygoogle||[]).push({})</script> </div> </div> </div> </div> <div class="sphinxsidebar" role="navigation" aria-label="main navigation"> <div class="sphinxsidebarwrapper"> <p class="logo"> <a href="https://itslab-kyushu.github.io/youtube-comment-scraper/"> <img class="logo" src="https://itslab-kyushu.github.io/youtube-comment-scraper/favicon.ico" alt="Logo"> <h1 class="logo logo-name">YouTube Comment Scraper</h1> </a> </p> <p class="blurb">Scraping comments from YouTube.</p> <p> <iframe src="https://ghbtns.com/github-btn.html?user=itslab-kyushu&repo=youtube-comment-scraper&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe> </p> <h3>Donate</h3> <p> Consider supporting the authors on <a href="https://www.gratipay.com/">Gratipay</a>: <script src="//grtp.co/v1.js" data-gratipay-username="~jkawamoto" data-gratipay-widget="button" async></script> </p> <hr> <p> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4734862314145555" data-ad-slot="6733697427" data-ad-format="auto"></ins> <script>(adsbygoogle=window.adsbygoogle||[]).push({})</script> </p> </div> </div> <div class="clearer"></div> </div> <div class="footer"> &copy; 2017 <a href="https://github.com/jkawamoto/">Junpei Kawamoto</a> | Icon by <a href="http://www.clipartkid.com/">Clipart Kid</a> | Powered by <a href="http://gohugo.io/">Hugo 0.18.1</a> &amp; <a href="https://github.com/digitalcraftsman/hugo-alabaster-theme">Alabaster</a> </div> <a href="https://github.com/itslab-kyushu/youtube-comment-scraper" class="github"> <img style="position:absolute;top:0;right:0;border:0" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" class="github"> </a> <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css"> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> <script>hljs.initHighlightingOnLoad()</script> <script>!function(e,a,t,n,c,o,s){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,o=a.createElement(t),s=a.getElementsByTagName(t)[0],o.async=1,o.src="//www.google-analytics.com/analytics.js",s.parentNode.insertBefore(o,s)}(window,document,"script",0,"ga"),ga("create","UA-89247555-1","auto"),ga("send","pageview")</script>  </body> </html> 
