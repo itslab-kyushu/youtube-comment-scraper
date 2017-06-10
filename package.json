@@ -12,7 +12,6 @@
   },
   "scripts": {
     "start": "./bin/cli.js",
-    "doc": "coffeedoc src",
     "check-update": "ncu -u"
   },
   "author": "Junpei Kawamoto <kawamoto.junpei@gmail.com>",
@@ -33,12 +32,11 @@
     "url": "https://github.com/itslab-kyushu/youtube-comment-scraper/issues"
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.1",
     "phantom": "^4.0.0",
-    "yargs": "^7.0.2"
+    "yargs": "^8.0.1"
   },
   "devDependencies": {
-    "coffeedoc": "^0.3.1",
     "npm-check-updates": "^2.10.2"
   }
 }
